@@ -1,7 +1,6 @@
-version: "3.9"
-
 services:
   openqda:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,8 +15,8 @@ services:
     env_file:
       - .env #copy .env.default to .env and edit as needed
     ports:
-      - "${APP_PORT:-8923}:8000"
-      - "${REVERB_PORT:-8443}:8443"
+      - "127.0.0.1:${HOST_APP_PORT:-8923}:8000"
+      - "127.0.0.1:${HOST_REVERB_PORT:-8443}:8443"
     volumes:
       # overwrite entrypoint for local development
       - ./entrypoint.sh:/opt/openqda/entrypoint.sh
@@ -33,6 +32,7 @@ services:
       retries: 60
 
   mysql:
+    restart: unless-stopped
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
@@ -47,6 +47,7 @@ services:
       timeout: 5s
 
   redis:
+    restart: unless-stopped
     image: redis:7-alpine
     volumes:
       - ./openqda-redis:/data
