@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.6
 
-FROM php:8.2-cli AS base
+FROM php:8.4-cli AS base
 
 ARG OPENQDA_GIT_URL
 ARG OPENQDA_GIT_REF=main
@@ -55,7 +55,7 @@ RUN if [ -f package.json ]; then \
     fi
 
 # Runtime container
-FROM php:8.2-cli
+FROM php:8.4-cli
 
 ARG OPENQDA_APP_SUBDIR=web
 

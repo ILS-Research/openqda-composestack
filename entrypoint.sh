@@ -116,6 +116,8 @@ fi
 if [ -z "${APP_KEY:-}" ]; then
   echo "No APP_KEY provided, generating new one..."
   php artisan key:generate --force >/dev/null || true
+  GENERATED_KEY=$(grep '^APP_KEY=' "${APP_DIR}/.env" | cut -d'=' -f2- || true)
+  echo "Generated APP_KEY: ${GENERATED_KEY}"
 else
   echo "Using provided APP_KEY from environment"
 fi
